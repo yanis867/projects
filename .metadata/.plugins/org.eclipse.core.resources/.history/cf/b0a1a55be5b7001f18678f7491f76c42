@@ -1,0 +1,19 @@
+package ehealth_app;
+
+import java.awt.Color;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+
+public class Login extends JFrame {
+	Login() {
+		this.setTitle("cookie's biz");
+		this.setSize(800, 450);
+		this.setResizable(true);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setVisible(true);
+		ImageIcon image = new ImageIcon("cookie_cat_yawning.jpg");
+		this.setIconImage(image.getImage());
+		this.getContentPane().setBackground(new Color(212121));
+	}
+}

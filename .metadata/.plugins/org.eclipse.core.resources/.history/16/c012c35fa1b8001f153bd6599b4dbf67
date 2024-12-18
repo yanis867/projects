@@ -1,0 +1,21 @@
+package ehealth_app;
+
+
+public class Main {
+
+	public static void main(String[] args) {
+		/*JFrame frame = new JFrame(); // créer une instance d'un frame (cadre), ceci est invisible: faire \/
+		frame.setTitle("cookie's biz");
+		frame.setSize(800, 450);
+		frame.setResizable(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		
+		frame.setVisible(true);
+		ImageIcon image = new ImageIcon("cookie_cat_yawning.jpg");
+		frame.setIconImage(image.getImage());
+		frame.getContentPane().setBackground(new Color(212121));*/
+		Login login = new Login();
+	}
+
+}

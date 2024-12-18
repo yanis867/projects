@@ -1,0 +1,14 @@
+package ehealth_app;
+
+import javax.swing.JPanel;
+
+public class Main {
+
+	public static void main(String[] args) {
+		
+		JPanel panel = new JPanel();
+		
+		Login login = new Login();
+	}
+
+}

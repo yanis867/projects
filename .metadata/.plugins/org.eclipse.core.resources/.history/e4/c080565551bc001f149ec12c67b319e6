@@ -1,0 +1,120 @@
+import javax.swing.*;
+import java.awt.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.table.TableModel;
+
+public class DataGraphWindow extends JFrame {
+    private JLabel dateTime;
+
+    public DataGraphWindow(TableModel tableModel) {
+        setTitle("Sahtec - Data Graph");
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setSize(942, 627);
+        setLocationRelativeTo(null);
+        setResizable(false);
+        setLayout(null);
+
+        // Set Background
+        JLabel background = new JLabel(new ImageIcon(getClass().getResource("/Backgroundimg2.png")));
+        background.setBounds(0, 0, 942, 627);
+        background.setOpaque(false);
+        add(background);
+
+        // Add Logo
+        JLabel logo = new JLabel(new ImageIcon(new ImageIcon(getClass().getResource("/logo2.png"))
+                .getImage()
+                .getScaledInstance(170, 58, Image.SCALE_SMOOTH)));
+        logo.setBounds(20, 10, 170, 58);
+        background.add(logo);
+
+        // Add Date and Time
+        dateTime = new JLabel();
+        dateTime.setFont(new Font("Arial", Font.BOLD, 14));
+        dateTime.setForeground(Color.BLACK);
+        dateTime.setBounds(700, 10, 230, 30);
+        updateDateTime();
+        background.add(dateTime);
+
+        // Create Chart Panel
+        JPanel chartPanel = new JPanel(new GridLayout(1, 2)) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+
+                // Draw Weight/Temperature Chart
+                drawBarChart(g, tableModel, 10, 10, 400, 300, new String[]{"Weight", "Temperature"}, new Color[]{Color.GRAY, Color.GREEN});
+
+                // Draw Blood Pressure Chart
+                drawBarChart(g, tableModel, 420, 10, 400, 300, new String[]{"Systolic", "Diastolic"}, new Color[]{Color.GREEN, Color.GRAY});
+            }
+        };
+        chartPanel.setBounds(50, 150, 850, 400);
+        background.add(chartPanel);
+
+        setVisible(true);
+    }
+
+    private void drawBarChart(Graphics g, TableModel tableModel, int x, int y, int width, int height, String[] seriesLabels, Color[] colors) {
+        int padding = 50;
+        int barWidth = (width - 2 * padding) / tableModel.getRowCount() / seriesLabels.length;
+        int maxBarHeight = height - 2 * padding;
+
+        // Draw Axis
+        g.setColor(Color.BLACK);
+        g.drawLine(x + padding, y + height - padding, x + width - padding, y + height - padding); // X-Axis
+        g.drawLine(x + padding, y + padding, x + padding, y + height - padding); // Y-Axis
+
+        // Calculate Max Value
+        double maxValue = 0;
+        for (int i = 0; i < tableModel.getRowCount(); i++) {
+            for (int j = 0; j < seriesLabels.length; j++) {
+                try {
+                    String valueStr = tableModel.getValueAt(i, j + 1).toString().replaceAll("[^\\d.]", "");
+                    maxValue = Math.max(maxValue, Double.parseDouble(valueStr));
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this,
+                            "Error parsing data for graph: " + ex.getMessage(),
+                            "Data Parsing Error",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+
+        // Draw Bars
+        int barSpacing = 10;
+        for (int i = 0; i < tableModel.getRowCount(); i++) {
+            for (int j = 0; j < seriesLabels.length; j++) {
+                try {
+                    String valueStr = tableModel.getValueAt(i, j + 1).toString().replaceAll("[^\\d.]", "");
+                    double value = Double.parseDouble(valueStr);
+
+                    // Calculate Bar Dimensions
+                    int barHeight = (int) ((value / maxValue) * maxBarHeight);
+                    int barX = x + padding + i * (seriesLabels.length * barWidth + barSpacing) + j * barWidth;
+                    int barY = y + height - padding - barHeight;
+
+                    // Draw Bar
+                    g.setColor(colors[j]);
+                    g.fillRect(barX, barY, barWidth, barHeight);
+                } catch (Exception ex) {
+                    // Skip invalid values
+                }
+            }
+        }
+
+        // Draw Series Labels
+        g.setColor(Color.BLACK);
+        for (int i = 0; i < seriesLabels.length; i++) {
+            g.drawString(seriesLabels[i], x + padding + i * 100, y + height - padding + 20);
+        }
+    }
+
+    private void updateDateTime() {
+        Timer timer = new Timer(1000, e -> {
+            SimpleDateFormat sdf = new SimpleDateFormat("EEEE dd/MM/yyyy  HH:mm:ss");
+            dateTime.setText(sdf.format(new Date()));
+        });
+        timer.start();
+    }
+}

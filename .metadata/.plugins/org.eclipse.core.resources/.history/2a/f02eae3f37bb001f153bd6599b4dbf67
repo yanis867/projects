@@ -1,0 +1,22 @@
+package ehealth_app;
+
+import java.awt.Color;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+public class Login extends JFrame {
+	JPanel banner, footer, lpane, rpane;
+	Login() {
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setTitle("E-health - Connexion");
+		this.setSize(800, 450);
+		this.setResizable(true);
+		this.setVisible(true);
+		
+		banner = new JPanel();
+		banner.setBackground(new Color(0x004aad));
+		banner.setVisible(true);
+	}
+
+}

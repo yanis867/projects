@@ -1,0 +1,36 @@
+package ehealth_app;
+
+import java.awt.Color;
+import java.awt.Panel;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+public class Main {
+
+	public static void main(String[] args) {
+		
+		JPanel redPanel = new JPanel();
+		redPanel.setBackground(Color.red);
+		redPanel.setBounds(0, 0, 300, 300);
+		
+		JPanel bluePanel = new JPanel();
+		bluePanel.setBackground(Color.blue);
+		bluePanel.setBounds(300, 0, 300, 300);
+		
+		Panel greenPanel = new Panel();
+		greenPanel.setBackground(Color.green);
+		greenPanel.setBounds(0, 300, 600, 300);
+		
+		JLabel label = new JLabel("Hello there!");
+		label.setHorizontalAlignment(JLabel.CENTER);
+		label.setVerticalAlignment(JLabel.CENTER);
+		redPanel.add(label);
+		
+		Login login = new Login();
+		login.add(redPanel);
+		login.add(bluePanel);
+		login.add(greenPanel);
+	}
+
+}

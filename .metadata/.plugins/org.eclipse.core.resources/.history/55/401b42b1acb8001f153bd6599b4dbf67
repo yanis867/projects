@@ -1,0 +1,24 @@
+package ehealth_app;
+
+import java.awt.Color;
+
+import javax.swing.JPanel;
+
+public class Main {
+
+	public static void main(String[] args) {
+		
+		JPanel redpanel = new JPanel();
+		redpanel.setBackground(Color.red);
+		redpanel.setBounds(0, 0, 300, 300);
+		
+		JPanel bluepanel = new JPanel();
+		bluepanel.setBackground(Color.blue);
+		bluepanel.setBounds(300, 0, 300, 300);
+		
+		Login login = new Login();
+		login.add(redpanel);
+		login.add(bluepanel);
+	}
+
+}

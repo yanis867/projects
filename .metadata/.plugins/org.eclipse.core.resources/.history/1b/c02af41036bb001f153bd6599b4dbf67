@@ -1,0 +1,13 @@
+package ehealth_app;
+
+import javax.swing.JFrame;
+
+public class Login extends JFrame {
+	Login() {
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setSize(800, 450);
+		this.setResizable(true);
+		this.setVisible(true);
+	}
+
+}

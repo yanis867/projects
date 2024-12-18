@@ -1,0 +1,62 @@
+package ehealth_app;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.border.Border;
+
+public class Login extends JFrame /*implements ActionListener*/ {
+	JButton button;
+	Login() {
+		/*Border border = BorderFactory.createLineBorder(new Color(200, 100, 10), 3);
+		
+		ImageIcon bro = new ImageIcon("cookie_cat_yawning.jpg");
+		JLabel label = new JLabel();
+		label.setText("Bro, do you even code?");
+		label.setIcon(bro);
+		label.setHorizontalTextPosition(JLabel.CENTER);
+		label.setVerticalTextPosition(JLabel.TOP);
+		label.setForeground(new Color(200,100,10));
+		label.setIconTextGap(50);
+		label.setFont(new Font("Sans Serif", Font.PLAIN, 30));
+		label.setBorder(border);
+		label.setHorizontalAlignment(JLabel.CENTER);
+		
+		
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//this.setSize(1000, 1000);
+		this.setVisible(true);
+		this.setResizable(true);
+		
+		this.setTitle("cookie's biz");
+		ImageIcon image = new ImageIcon("cookie_cat_yawning.jpg");
+		this.setIconImage(image.getImage());
+		this.getContentPane().setBackground(new Color(212121));
+		
+		
+		this.add(label);
+		this.pack();*/
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setVisible(true);
+		this.setSize(500, 500);
+		
+		button = new JButton("Hello");
+		button.setVisible(true);
+	}
+
+	/*@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == button)
+			System.out.println("Hello");
+		
+	}*/
+}

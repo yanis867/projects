@@ -1,0 +1,46 @@
+package ehealth_app;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.LayoutManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.Border;
+
+public class Login extends JFrame /*implements ActionListener */{
+	JButton button;
+	Login() {
+		JFrame frame = new JFrame("Hello");
+		frame.setVisible(true);
+		frame.setSize(500, 500);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setLayout(new BorderLayout());
+		
+		JPanel panelN = new JPanel();
+		JPanel panelS = new JPanel();
+		JPanel panelE = new JPanel();
+		JPanel panelW = new JPanel();
+		JPanel panelC = new JPanel();
+		
+		panelN.setBackground(Color.red);
+		panelS.setBackground(Color.BLUE);
+		panelE.setBackground(Color.GREEN);
+		panelW.setBackground(Color.MAGENTA);
+		panelC.setBackground(Color.YELLOW);
+		
+		frame.add(panelN, BorderLayout.NORTH);
+		frame.add(panelS, BorderLayout.SOUTH);
+		frame.add(panelE, BorderLayout.EAST);
+		frame.add(panelW, BorderLayout.WEST);
+		frame.add(panelC, BorderLayout.CENTER);
+	}
+}

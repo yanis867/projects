@@ -1,0 +1,16 @@
+package ehealth_app;
+
+import javax.swing.JFrame;
+
+public class Main {
+
+	public static void main(String[] args) {
+		JFrame frame = new JFrame(); // créer une instance d'un frame (cadre), ceci est invisible: faire \/
+		frame.setSize(500, 500);
+		
+		
+		
+		frame.setVisible(true);
+	}
+
+}
