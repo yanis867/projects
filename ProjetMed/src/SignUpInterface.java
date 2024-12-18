@@ -27,7 +27,7 @@ public class SignUpInterface extends JFrame {
  
     // Constructor
     public SignUpInterface() {
-        setTitle("Médilog - Create Account");
+        setTitle("Médilog - S'inscrire");
         setSize(942, 627);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -59,7 +59,7 @@ public class SignUpInterface extends JFrame {
         formPanel.setLayout(null);
 
         // "Create your account" label
-        JLabel createAccountLabel = new JLabel("Create your account", SwingConstants.CENTER);
+        JLabel createAccountLabel = new JLabel("S'inscrire", SwingConstants.CENTER);
         createAccountLabel.setFont(new Font("Arial", Font.BOLD, 20));
         createAccountLabel.setForeground(Color.decode("#3a6a4e"));
         createAccountLabel.setBounds(50, 10, 200, 30);
@@ -68,13 +68,13 @@ public class SignUpInterface extends JFrame {
         // Full Name field
         fullNameField = new JTextField();
         fullNameField.setBounds(50, 50, 200, 30);
-        addPlaceholder(fullNameField, "Full Name");
+        addPlaceholder(fullNameField, "Nom Complet");
         formPanel.add(fullNameField);
 
         // Emergency Contact field
         emergencyContactField = new JTextField();
         emergencyContactField.setBounds(50, 100, 200, 30);
-        addPlaceholder(emergencyContactField, "Emergency Contact");
+        addPlaceholder(emergencyContactField, "Contact d'urgence");
         formPanel.add(emergencyContactField);
 
         // Email field
@@ -86,25 +86,25 @@ public class SignUpInterface extends JFrame {
         // Password field
         passwordField = new JPasswordField();
         passwordField.setBounds(50, 200, 200, 30);
-        addPlaceholder(passwordField, "Enter your password");
+        addPlaceholder(passwordField, "Entrer votre mot de passe");
         formPanel.add(passwordField);
 
         
 
     
      // Gender Label
-        JLabel genderLabel = new JLabel("Gender:");
+        JLabel genderLabel = new JLabel("Sexe:");
         genderLabel.setBounds(50, 247, 80, 20);
         genderLabel.setFont(new Font("Arial", Font.BOLD, 14));
         genderLabel.setForeground(Color.WHITE);
         formPanel.add(genderLabel);
 
         // Gender radio buttons
-        maleButton = new JRadioButton("Male");
+        maleButton = new JRadioButton("Homme");
         maleButton.setBounds(156, 237, 80, 30);
         maleButton.setBackground(Color.decode("#6fa1ad"));
 
-        femaleButton = new JRadioButton("Female");
+        femaleButton = new JRadioButton("Femme");
         femaleButton.setBounds(156, 257, 80, 30);
         femaleButton.setBackground(Color.decode("#6fa1ad"));
 
@@ -117,7 +117,7 @@ public class SignUpInterface extends JFrame {
         formPanel.add(femaleButton);
 
         // Role Label
-        JLabel roleLabel = new JLabel("Role:");
+        JLabel roleLabel = new JLabel("Rôle:");
         roleLabel.setBounds(50, 300, 80, 20);
         roleLabel.setFont(new Font("Arial", Font.BOLD, 14));
         roleLabel.setForeground(Color.WHITE);
@@ -128,7 +128,7 @@ public class SignUpInterface extends JFrame {
         patientButton.setBounds(156, 290, 100, 30);
         patientButton.setBackground(Color.decode("#6fa1ad"));
 
-        healthProfButton = new JRadioButton("Health Prof");
+        healthProfButton = new JRadioButton("Docteur");
         healthProfButton.setBounds(156, 310, 100, 30);
         healthProfButton.setBackground(Color.decode("#6fa1ad"));
 
@@ -142,7 +142,7 @@ public class SignUpInterface extends JFrame {
 
 
         // Next button
-        nextButton = new JButton("NEXT");
+        nextButton = new JButton("Suivant");
         nextButton.setBounds(100, 350, 100, 30);
         nextButton.setBackground(new Color(34, 139, 34));
         nextButton.setForeground(Color.WHITE);
@@ -163,15 +163,15 @@ public class SignUpInterface extends JFrame {
 
                 // Validate inputs
                 if (fullName.isEmpty() || emergencyContact.isEmpty() || email.isEmpty() || password.isEmpty() || gender == null || userType == null) {
-                    JOptionPane.showMessageDialog(null, "All fields are required. Please fill in all fields.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Tous les champs sont obligatoires. Veuillez remplir tous les champs.", "Erreur de saisie", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 if (!email.endsWith("@gmail.com")) {
-                    JOptionPane.showMessageDialog(null, "Email must end with '@gmail.com'.", "Invalid Email", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "L'email doit se terminer par '@gmail.com'.", "Email invalide", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 if (password.length() < 8) {
-                    JOptionPane.showMessageDialog(null, "Password must be at least 8 characters long.", "Invalid Password", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Le mot de passe doit avoir au moins 8 caractères.", "MdP invalide", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
@@ -225,7 +225,7 @@ public class SignUpInterface extends JFrame {
                     }
                     dispose(); // Close the current window
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Erreur de manipulation de base de données: " + ex.getMessage(), "Erreur BDD", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });

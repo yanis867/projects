@@ -1,19 +1,15 @@
-// Updated HealthProfUI
 import javax.swing.*;
 import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class HealthProfUI extends JFrame {
     private DefaultTableModel tableModel;
-    private JLabel dateTime; 
     private JTable table;
 
     public HealthProfUI(int ID_Prof) {
-        setTitle("Médilog - Health Professionals");
+        setTitle("Médilog - Docteurs");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(942, 627);
         setLocationRelativeTo(null);
@@ -30,14 +26,14 @@ public class HealthProfUI extends JFrame {
         logo.setBounds(20, 10, 170, 58);
         background.add(logo);
 
-        JButton addPatientBtn = new JButton("ADD PATIENT");
+        JButton addPatientBtn = new JButton("Ajouter Patient");
         addPatientBtn.setBounds(410, 60, 180, 35);
         addPatientBtn.setFont(new Font("Arial", Font.BOLD, 14));
         addPatientBtn.setBackground(Color.decode("#69b031"));
         addPatientBtn.setForeground(Color.WHITE);
         background.add(addPatientBtn);
 
-        String[] columns = {"Full Name", "Phone Number", "Height", "Gender", "Medical History", "Info"};
+        String[] columns = {"Nom Complet", "Numero Tel.", "Taille", "Sexe", "antécédents médicaux", "Infos."};
         tableModel = new DefaultTableModel(columns, 0);
         table = new JTable(tableModel);
 
@@ -59,13 +55,6 @@ public class HealthProfUI extends JFrame {
 
         table.getColumn("Info").setCellRenderer(new LinkCellRenderer());
         table.addMouseListener(new TableMouseListener(ID_Prof));
-
-        dateTime = new JLabel();
-        dateTime.setFont(new Font("Arial", Font.BOLD, 14));
-        dateTime.setForeground(Color.BLACK);
-        dateTime.setBounds(700, 10, 230, 30);
-        updateDateTime();
-        background.add(dateTime);
 
         addPatientBtn.addActionListener(e -> addPatient(ID_Prof, table));
 
@@ -91,12 +80,12 @@ public class HealthProfUI extends JFrame {
                 tableModel.addRow(rowData);
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Database error while loading patients: " + ex.getMessage());
+            JOptionPane.showMessageDialog(this, "Erreur de BDD lors du chargement des patients: " + ex.getMessage());
         }
     }
 
     private void addPatient(int ID_Prof, JTable table) {
-        String fullName = JOptionPane.showInputDialog(this, "Enter the patient's Email");
+        String fullName = JOptionPane.showInputDialog(this, "Entrer l'eemail du patient");
 
         if (fullName != null && !fullName.trim().isEmpty()) {
             try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/medilog", "root", "")) {
@@ -110,9 +99,9 @@ public class HealthProfUI extends JFrame {
                     int currentProfID = rs.getInt("ID_Prof");
 
                     if (currentProfID != 0 && currentProfID != ID_Prof) {
-                        JOptionPane.showMessageDialog(this, "This patient is already assigned to another health professional.");
+                        JOptionPane.showMessageDialog(this, "Ce patient est déjà attribué a un autre médecin.");
                     } else if (currentProfID == ID_Prof) {
-                        JOptionPane.showMessageDialog(this, "This patient is already assigned to you.");
+                        JOptionPane.showMessageDialog(this, "Ce patient est déjà attribué a vous.");
                     } else {
                         String updateQuery = "UPDATE user SET ID_Prof = ? WHERE Email_User = ?";
                         PreparedStatement updatePstmt = conn.prepareStatement(updateQuery);
@@ -122,7 +111,7 @@ public class HealthProfUI extends JFrame {
                         int rowsUpdated = updatePstmt.executeUpdate();
 
                         if (rowsUpdated > 0) {
-                            JOptionPane.showMessageDialog(this, "Patient successfully assigned to you.");
+                            JOptionPane.showMessageDialog(this, "Le patient vous a été attribué avec succès.");
                             Object[] rowData = {
                                     rs.getString("User_FullName"),
                                     rs.getString("User_Contact"),
@@ -133,33 +122,25 @@ public class HealthProfUI extends JFrame {
                             };
                             tableModel.addRow(rowData);
                         } else {
-                            JOptionPane.showMessageDialog(this, "Failed to assign patient. Please try again.");
+                            JOptionPane.showMessageDialog(this, "Échec de l'affectation du patient, Veuillez réessayer.");
                         }
                     }
                 } else {
-                    JOptionPane.showMessageDialog(this, "No patients with that Email in our database.");
+                    JOptionPane.showMessageDialog(this, "Aucun patient avec cet email dans notre base de données.");
                 }
 
             } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(this, "Database error: " + ex.getMessage());
+                JOptionPane.showMessageDialog(this, "Erreur de BDD: " + ex.getMessage());
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Patient Emaail cannot be empty.");
+            JOptionPane.showMessageDialog(this, "l'email du patient ne doit pas être vide.");
         }
     }
-
-    private void updateDateTime() {
-        Timer timer = new Timer(1000, e -> {
-            SimpleDateFormat sdf = new SimpleDateFormat("EEEE dd/MM/yyyy  HH:mm:ss");
-            dateTime.setText(sdf.format(new Date()));
-        });
-        timer.start();
-    } 
 
     private class LinkCellRenderer extends DefaultTableCellRenderer {
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-            JLabel label = new JLabel("<html><a href='#'>View</a></html>");
+            JLabel label = new JLabel("<html><a href='#'>Afficher</a></html>");
             label.setFont(new Font("Arial", Font.PLAIN, 14));
             label.setHorizontalAlignment(SwingConstants.CENTER);
             return label;

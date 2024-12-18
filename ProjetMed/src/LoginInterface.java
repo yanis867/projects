@@ -16,7 +16,7 @@ public class LoginInterface extends JFrame {
 
     public LoginInterface() {
         // JFrame properties
-        setTitle("Login Page");
+        setTitle("Médilog - Connexion");
         setSize(942, 627);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -48,7 +48,7 @@ public class LoginInterface extends JFrame {
         formPanel.setLayout(null);
 
         // Welcome label
-        JLabel welcomeLabel = new JLabel("WELCOME", SwingConstants.CENTER);
+        JLabel welcomeLabel = new JLabel("Se Connecter", SwingConstants.CENTER);
         welcomeLabel.setFont(new Font("Arial", Font.BOLD, 24));
         welcomeLabel.setForeground(new Color(34, 139, 34));
         welcomeLabel.setBounds(50, 10, 200, 30);
@@ -59,11 +59,11 @@ public class LoginInterface extends JFrame {
         emailField.setBounds(50, 60, 200, 30);
         emailField.setHorizontalAlignment(JTextField.CENTER);
         emailField.setForeground(Color.GRAY);
-        emailField.setText("Enter your Email");
+        emailField.setText("Entrer votre Email");
         emailField.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
-                if (emailField.getText().equals("Enter your Email")) {
+                if (emailField.getText().equals("Entrer votre Email")) {
                     emailField.setText("");
                     emailField.setForeground(Color.BLACK);
                 }
@@ -73,7 +73,7 @@ public class LoginInterface extends JFrame {
             public void focusLost(FocusEvent e) {
                 if (emailField.getText().isEmpty()) {
                     emailField.setForeground(Color.GRAY);
-                    emailField.setText("Enter your Email");
+                    emailField.setText("Entrer votre Email");
                 }
             }
         }); 
@@ -85,11 +85,11 @@ public class LoginInterface extends JFrame {
         passwordField.setHorizontalAlignment(JTextField.CENTER);
         passwordField.setForeground(Color.GRAY);
         passwordField.setEchoChar((char) 0); // Show text for placeholder
-        passwordField.setText("Enter your password");
+        passwordField.setText("Entrer votre mot de passe");
         passwordField.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
-                if (new String(passwordField.getPassword()).equals("Enter your password")) {
+                if (new String(passwordField.getPassword()).equals("Entrer votre mot de passe")) {
                     passwordField.setText("");
                     passwordField.setForeground(Color.BLACK);
                     passwordField.setEchoChar('●'); // Mask password input
@@ -100,7 +100,7 @@ public class LoginInterface extends JFrame {
             public void focusLost(FocusEvent e) {
                 if (new String(passwordField.getPassword()).isEmpty()) {
                     passwordField.setForeground(Color.GRAY);
-                    passwordField.setText("Enter your password");
+                    passwordField.setText("Entrer votre mot de passe");
                     passwordField.setEchoChar((char) 0); // Show text for placeholder
                 }
             }
@@ -113,7 +113,7 @@ public class LoginInterface extends JFrame {
         patientRadioButton.setBackground(Color.decode("#6fa1ad"));
         patientRadioButton.setForeground(Color.BLACK);
 
-        profRadioButton = new JRadioButton("Prof");
+        profRadioButton = new JRadioButton("Docteur");
         profRadioButton.setBounds(180, 160, 80, 20);
         profRadioButton.setBackground(Color.decode("#6fa1ad"));
         profRadioButton.setForeground(Color.BLACK);
@@ -126,8 +126,8 @@ public class LoginInterface extends JFrame {
         formPanel.add(profRadioButton);
 
         // Login button
-        JButton loginButton = new JButton("LOGIN");
-        loginButton.setBounds(100, 200, 100, 30);
+        JButton loginButton = new JButton("Se Connecter");
+        loginButton.setBounds(90, 200, 120, 30);
         loginButton.setBackground(new Color(34, 139, 34));
         loginButton.setForeground(Color.WHITE);
         loginButton.setFocusPainted(false);
@@ -145,13 +145,13 @@ public class LoginInterface extends JFrame {
                 String email = emailField.getText();
                 String password = new String(passwordField.getPassword());
 
-                if (email.equals("Enter your Email") || password.equals("Enter your password")) {
-                    JOptionPane.showMessageDialog(null, "Please enter your email and password.");
+                if (email.equals("Entrer votre Email") || password.equals("Entrer votre mot de passe")) {
+                    JOptionPane.showMessageDialog(null, "Veillez saisir votre email et mot de passe.");
                     return;
                 }
 
                 if (!patientRadioButton.isSelected() && !profRadioButton.isSelected()) {
-                    JOptionPane.showMessageDialog(null, "Please select a role: Patient or Prof.");
+                    JOptionPane.showMessageDialog(null, "Veillez selectionner un role: Patient ou Docteur.");
                     return;
                 }
 
@@ -160,22 +160,22 @@ public class LoginInterface extends JFrame {
                     if (userId != -1) {
                         openDataTablePage(userId);
                     } else {
-                        JOptionPane.showMessageDialog(null, "Email or password doesn't exist.");
+                        JOptionPane.showMessageDialog(null, "Email ou mot de passe n'existe pas.");
                     }
                 } else if (profRadioButton.isSelected()) {
                     int profId = validateLogin(email, password, "healthprof", "Email_Prof", "Password_Prof", "id_prof");
                     if (profId != -1) {
                         openHealthProfPage(profId);
                     } else {
-                        JOptionPane.showMessageDialog(null, "Email or password doesn't exist.");
+                        JOptionPane.showMessageDialog(null, "Email ou mot de passe n'existe pas.");
                     }
                 }
             } 
         })   ;
-        JLabel signUpLabel = new JLabel("<html>DON'T HAVE AN ACCOUNT? <u>SIGN-UP</u></html>", SwingConstants.CENTER);
+        JLabel signUpLabel = new JLabel("<html>Vous n'avez pas encore de compte? <u>S'inscrire</u></html>", SwingConstants.CENTER);
         signUpLabel.setFont(new Font("Arial", Font.PLAIN, 12));
         signUpLabel.setForeground(Color.DARK_GRAY);
-        signUpLabel.setBounds(25, 250, 250, 20);
+        signUpLabel.setBounds(25, 240, 250, 50);
         formPanel.add(signUpLabel);
 
         signUpLabel.addMouseListener(new MouseAdapter() {
@@ -220,7 +220,7 @@ public class LoginInterface extends JFrame {
                 }
             }
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Database connection error: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Erreur de Connexion BDD: " + e.getMessage());
         }
         return -1; // Return -1 if login fails
     }

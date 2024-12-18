@@ -7,7 +7,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
+//patient form
 public class PatientUi extends JFrame {
     private JTextField heightField, medicalHistoryField;
     private JSpinner birthdaySpinner; // Using JSpinner for date selection
@@ -22,7 +22,7 @@ public class PatientUi extends JFrame {
     // Constructor to accept the ID_User
     public PatientUi(int userId) {
         this.userId = userId; // Assign the passed userId
-        setTitle("Patient Form");
+        setTitle("Patient - S'inscrire");
         setSize(942, 627);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -53,14 +53,14 @@ public class PatientUi extends JFrame {
         formPanel.setBackground(Color.decode("#6fa1ad"));
         formPanel.setLayout(null);
 
-        JLabel patientFormLabel = new JLabel("PATIENT FORM", SwingConstants.CENTER);
+        JLabel patientFormLabel = new JLabel("Formulaire Patient", SwingConstants.CENTER);
         patientFormLabel.setFont(new Font("Arial", Font.BOLD, 20));
         patientFormLabel.setForeground(Color.decode("#3a6a4e"));
         patientFormLabel.setBounds(50, 10, 200, 30);
         formPanel.add(patientFormLabel);
 
         // Birthday chooser
-        JLabel birthdayLabel = new JLabel("Date of Birth:");
+        JLabel birthdayLabel = new JLabel("Date de naissance:");
         birthdayLabel.setBounds(50, 50, 200, 20);
         formPanel.add(birthdayLabel);
 
@@ -73,17 +73,17 @@ public class PatientUi extends JFrame {
         formPanel.add(birthdaySpinner);
 
         // Height field
-        heightField = createPlaceholderField("Enter your Height (cm)");
+        heightField = createPlaceholderField("Entrer votre Taille (cm)");
         heightField.setBounds(50, 120, 200, 30);
         formPanel.add(heightField);
 
         // Medical History field
-        medicalHistoryField = createPlaceholderField("Enter Medical History");
+        medicalHistoryField = createPlaceholderField("Entrer vos Antécédents Médicaux");
         medicalHistoryField.setBounds(50, 170, 200, 30);
         formPanel.add(medicalHistoryField);
 
         // Sign Up button
-        signUpButton = new JButton("SIGN UP");
+        signUpButton = new JButton("S'inscrire");
         signUpButton.setBounds(100, 240, 100, 30);
         signUpButton.setBackground(new Color(34, 139, 34));
         signUpButton.setForeground(Color.WHITE);
@@ -100,13 +100,13 @@ public class PatientUi extends JFrame {
 
                 // Validate inputs
                 if (birthday == null || height.isEmpty() || medicalHistory.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "All fields must be filled in to proceed.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Tous les champs doivent être remplis pour continuer.", "Erreur de saisie", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
                 // Validate height
                 if (!isValidHeight(height)) {
-                    JOptionPane.showMessageDialog(null, "Height must be a strictly positive real number.", "Invalid Height", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "La Taille doit être un nombre réel strictement positif.", "Taille invailde", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
@@ -125,12 +125,12 @@ public class PatientUi extends JFrame {
                     userStatement.executeUpdate();
 
                     // Notify success
-                    JOptionPane.showMessageDialog(null, "You signed up successfully!");
+                    JOptionPane.showMessageDialog(null, "Vous vous êtes inscrit avec succès!");
 
                     // Open DataTableUI and pass userId
                     openDataTablePage(userId);
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Erreur de manipulation de base de données: " + ex.getMessage(), "Erreur BDD", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });

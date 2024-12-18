@@ -12,12 +12,13 @@ public class DataTableUI extends JFrame {
    
     private int todayRowIndex = -1;
     public DataTableUI(int userId) {
-        setTitle("Médilog - Data Table");
+        setTitle("Médilog - Table de données");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
         setSize(942, 627); // Window size 
         setLocationRelativeTo(null); // Center the window 
         setResizable(false);
-        getContentPane().setLayout(null);  
+        getContentPane().setLayout(null);
+        
 
         // Set Background
         JLabel background = new JLabel(new ImageIcon(getClass().getResource("/Backgroundimg2.png")));
@@ -28,11 +29,11 @@ public class DataTableUI extends JFrame {
         JLabel logo = new JLabel(new ImageIcon(new ImageIcon(getClass().getResource("/logo2.png"))
                 .getImage()
                 .getScaledInstance(170, 58, Image.SCALE_SMOOTH))); // Logo size
-        logo.setBounds(20, 10, 170, 58); // Logo position
+        logo.setBounds(20, 5, 170, 58); // Logo position
         background.add(logo);
 
         // Create Table
-        String[] columns = {"Day", "Weight (KG)", "Temperature (°C)", "Heart Rate (bpm)"};
+        String[] columns = {"Jour", "Poids (KG)", "Température (°C)", "Tension (mmHg)"};
         tableModel = new DefaultTableModel(columns, 0);
         JTable table = new JTable(tableModel);
 
@@ -59,20 +60,13 @@ public class DataTableUI extends JFrame {
 
         // Load Data from Database
         loadDataFromDatabase(userId);
-
-        // Add Current Date and Time
-        dateTime = new JLabel();
-        dateTime.setFont(new Font("Arial", Font.BOLD, 14));
-        dateTime.setForeground(Color.BLACK);
-        dateTime.setBounds(700, 10, 230, 30);
-        updateDateTime();
-        background.add(dateTime);
         
                 // Add Buttons
      // Add "Add Doctor" button
-        JButton addDoctorBtn = new JButton("ADD DOCTOR");
-        getContentPane().add(addDoctorBtn);
-        addDoctorBtn.setBounds(20, 60, 140, 35);
+        JButton addDoctorBtn = new JButton("Ajouter un Docteur");
+        //getContentPane().add(addDoctorBtn);
+        background.add(addDoctorBtn);
+        addDoctorBtn.setBounds(20, 60, 170, 35);
         addDoctorBtn.setFont(new Font("Arial", Font.BOLD, 14));
         addDoctorBtn.setBackground(Color.decode("#69b031"));
         addDoctorBtn.setForeground(Color.WHITE);
@@ -80,31 +74,38 @@ public class DataTableUI extends JFrame {
         // Add action listener for "Add Doctor" button
         addDoctorBtn.addActionListener(e -> addDoctor(userId));
 
-                JButton addInfoBtn = new JButton("ADD TODAY'S INFO"); 
-                getContentPane().add(addInfoBtn);
-                addInfoBtn.setBounds(192, 60, 180, 35);
+                JButton addInfoBtn = new JButton("Aj. infos. d'aujoud'hui"); 
+                //getContentPane().add(addInfoBtn);
+                background.add(addInfoBtn);
+                addInfoBtn.setBounds(200, 60, 200, 35);
                 addInfoBtn.setFont(new Font("Arial", Font.BOLD, 14));
                 addInfoBtn.setBackground(Color.decode("#69b031"));
                 addInfoBtn.setForeground(Color.WHITE);
-                JButton dataTableBtn = new JButton("DATA TABLE");
-                getContentPane().add(dataTableBtn);
-                dataTableBtn.setBounds(394, 60, 180, 35);
+                JButton dataTableBtn = new JButton("Table de données");
+                //getContentPane().add(dataTableBtn);
+                background.add(dataTableBtn);
+                dataTableBtn.setBounds(410, 60, 160, 35);
                 dataTableBtn.setFont(new Font("Arial", Font.BOLD, 14));
                 dataTableBtn.setBackground(Color.LIGHT_GRAY);
                 dataTableBtn.setForeground(Color.BLACK);
                 
-                        JButton dataGraphBtn = new JButton("DATA GRAPH");
-                        getContentPane().add(dataGraphBtn);
+                        JButton dataGraphBtn = new JButton("Graphe de données");
+                        //getContentPane().add(dataGraphBtn);
+                        background.add(dataGraphBtn);
                         dataGraphBtn.setBounds(583, 60, 180, 35);
                         dataGraphBtn.setFont(new Font("Arial", Font.BOLD, 14));
                         dataGraphBtn.setBackground(Color.decode("#69b031"));
                         dataGraphBtn.setForeground(Color.WHITE);
-                        JButton notificationsBtn = new JButton("NOTIFICATIONS");
-                        getContentPane().add(notificationsBtn);
+                        JButton notificationsBtn = new JButton("Notifications");
+                        //getContentPane().add(notificationsBtn);
+                        background.add(notificationsBtn);
                         notificationsBtn.setBounds(773, 60, 143, 35);
                         notificationsBtn.setFont(new Font("Arial", Font.BOLD, 14));
                         notificationsBtn.setBackground(Color.decode("#008CBA"));
                         notificationsBtn.setForeground(Color.WHITE);
+                        
+                        
+                        
                         
      // Add Action to Notifications Button
                         notificationsBtn.addActionListener(e -> showNotifications(userId));
@@ -119,13 +120,13 @@ public class DataTableUI extends JFrame {
                             if (addedToday) {
                                 int choice = JOptionPane.showOptionDialog(
                                     this,
-                                    "You have already added today's info. What would you like to do?",
-                                    "Today's Info Exists",
+                                    "Vous avez déjà ajouté les informations d'aujourd'hui. Qu'aimeriez-vous faire ?",
+                                    "Les informations d'aujourd'hui existent",
                                     JOptionPane.YES_NO_CANCEL_OPTION,
                                     JOptionPane.QUESTION_MESSAGE,
                                     null,
-                                    new String[]{"Overwrite", "Delete", "Cancel"},
-                                    "Cancel"
+                                    new String[]{"Écraser", "Supprimer", "Annuler"},
+                                    "Annuler"
                                 );
                 
                                 switch (choice) {
@@ -167,8 +168,8 @@ public class DataTableUI extends JFrame {
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this,
-                "Error loading doctors: " + e.getMessage(),
-                "Database Error",
+                "Erreur lors du chargement des médecins : " + e.getMessage(),
+                "Erreur de BDD",
                 JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -176,12 +177,12 @@ public class DataTableUI extends JFrame {
         // Step 2: Display doctors in a dialog
         JScrollPane scrollPane = new JScrollPane(doctorTable);
         scrollPane.setPreferredSize(new Dimension(400, 200));
-        int result = JOptionPane.showConfirmDialog(this, scrollPane, "Choose a Doctor", JOptionPane.OK_CANCEL_OPTION);
+        int result = JOptionPane.showConfirmDialog(this, scrollPane, "Choisir un docteur", JOptionPane.OK_CANCEL_OPTION);
 
         if (result == JOptionPane.OK_OPTION) {
             int selectedRow = doctorTable.getSelectedRow();
             if (selectedRow == -1) {
-                JOptionPane.showMessageDialog(this, "Please select a doctor.", "No Selection", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Selectionner un docteur.", "Selectionner rien", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
@@ -202,8 +203,8 @@ public class DataTableUI extends JFrame {
 
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(this,
-                    "Error fetching selected doctor ID: " + e.getMessage(),
-                    "Database Error",
+                    "Erreur lors de la récupération de l'identifiant du médecin sélectionné : " + e.getMessage(),
+                    "Erreur BDD",
                     JOptionPane.ERROR_MESSAGE);
                 return;
             }
@@ -224,8 +225,8 @@ public class DataTableUI extends JFrame {
 
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(this,
-                    "Error checking user doctor: " + e.getMessage(),
-                    "Database Error",
+                    "Erreur lors de la vérification du médecin de l'utilisateur : " + e.getMessage(),
+                    "Erreur BDD",
                     JOptionPane.ERROR_MESSAGE);
                 return;
             }
@@ -233,8 +234,8 @@ public class DataTableUI extends JFrame {
             // Step 4: Confirm doctor change
             if (currentDoctorId != 0) {
                 int changeDoctor = JOptionPane.showConfirmDialog(this,
-                    "You already follow a doctor. Do you want to change?",
-                    "Doctor Change Confirmation",
+                    "Vous suivez déjà un médecin. Voulez-vous le changer?",
+                    "Confirmation de changement de docteur",
                     JOptionPane.YES_NO_OPTION);
 
                 if (changeDoctor != JOptionPane.YES_OPTION) {
@@ -252,14 +253,14 @@ public class DataTableUI extends JFrame {
                 stmt.executeUpdate();
 
                 JOptionPane.showMessageDialog(this,
-                    "Doctor added successfully!",
-                    "Success",
+                    "Docteur ajouté avec succès!",
+                    "Succès",
                     JOptionPane.INFORMATION_MESSAGE);
 
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(this,
-                    "Error updating user's doctor: " + e.getMessage(),
-                    "Database Error",
+                    "Erreur lors de la M.à.J. du médecin de l'utilisateur: " + e.getMessage(),
+                    "Erreur BDD",
                     JOptionPane.ERROR_MESSAGE);
             }
         }
@@ -291,8 +292,8 @@ public class DataTableUI extends JFrame {
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this,
-                "Error loading data: " + e.getMessage(),
-                "Database Error",
+                "Erreur lors du chargement des données: " + e.getMessage(),
+                "Erreur BDD",
                 JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -314,55 +315,55 @@ public class DataTableUI extends JFrame {
 
         // Prompt for weight
         while (!weightEntered) {
-            weight = JOptionPane.showInputDialog(this, "Enter Weight (KG):");
+            weight = JOptionPane.showInputDialog(this, "Entrer le poids (KG):");
             if (weight == null || weight.trim().isEmpty()) {
-                int confirm = JOptionPane.showConfirmDialog(this, "Skip entering weight?", "Confirm", JOptionPane.YES_NO_OPTION);
+                int confirm = JOptionPane.showConfirmDialog(this, "Sauter la saisie du poids?", "Confirmer", JOptionPane.YES_NO_OPTION);
                 if (confirm == JOptionPane.YES_OPTION) break;
             } else {
                 try {
                     double weightValue = Double.parseDouble(weight);
                     if (weightValue < 30 || weightValue > 150) {
                         JOptionPane.showMessageDialog(this, 
-                            "Warning: The entered weight (" + weightValue + " KG) is outside the normal range (30-150 KG). Please contact a doctor.",
-                            "Warning",
+                            "Attention : Le poids saisi (" + weightValue + " KG) est en dehors de la plage normale (30-150 KG). Veuillez contacter un médecin.",
+                            "Avertissement",
                             JOptionPane.WARNING_MESSAGE);
                     }
                     weightEntered = true;
                 } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(this, "Invalid weight value. Please enter a numeric value.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Valeur de poids invalide. Veuillez saisir une valeur numérique.", "Erreur de saisie", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }
 
         // Prompt for temperature
         while (!tempEntered) {
-            temp = JOptionPane.showInputDialog(this, "Enter Temperature (°C):");
+            temp = JOptionPane.showInputDialog(this, "Entrer la température (°C):");
             if (temp == null || temp.trim().isEmpty()) {
-                int confirm = JOptionPane.showConfirmDialog(this, "Skip entering temperature?", "Confirm", JOptionPane.YES_NO_OPTION);
+                int confirm = JOptionPane.showConfirmDialog(this, "Sauter la saisie de la température?", "Confirmer", JOptionPane.YES_NO_OPTION);
                 if (confirm == JOptionPane.YES_OPTION) break;
             } else {
                 try {
                     double tempValue = Double.parseDouble(temp);
                     if (tempValue < 35 || tempValue > 42) {
                         JOptionPane.showMessageDialog(this, 
-                            "Warning: The entered temperature (" + tempValue + "°C) is outside the normal range (35-42°C). Please contact a doctor.",
-                            "Warning",
+                            "Attention: La température saisie (" + tempValue + "°C) est en dehors de la plage normale (35-42°C). Veuillez contacter un médecin.",
+                            "Avertissement",
                             JOptionPane.WARNING_MESSAGE);
                     }
                     tempEntered = true;
                 } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(this, "Invalid temperature value. Please enter a numeric value.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Valeur de température invalide. Veuillez saisir une valeur numérique.", "Erreur de saisie", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }
 
         // Prompt for heart rate
         while (!heartRateEntered) {
-            String heartRateFirst = JOptionPane.showInputDialog(this, "Enter First Heart Rate Value (bpm):");
-            String heartRateSecond = JOptionPane.showInputDialog(this, "Enter Second Heart Rate Value (bpm):");
+            String heartRateFirst = JOptionPane.showInputDialog(this, "Entrer la tension systolique (/10 mmHg):");
+            String heartRateSecond = JOptionPane.showInputDialog(this, "Entrer la tension diastolique (/10 mmHg):");
 
             if ((heartRateFirst == null || heartRateFirst.trim().isEmpty()) || (heartRateSecond == null || heartRateSecond.trim().isEmpty())) {
-                int confirm = JOptionPane.showConfirmDialog(this, "Skip entering heart rate?", "Confirm", JOptionPane.YES_NO_OPTION);
+                int confirm = JOptionPane.showConfirmDialog(this, "sauter la saisie de la tension?", "Confirmer", JOptionPane.YES_NO_OPTION);
                 if (confirm == JOptionPane.YES_OPTION) break;
             } else {
                 heartRate = heartRateFirst + "/" + heartRateSecond;
@@ -375,10 +376,10 @@ public class DataTableUI extends JFrame {
 
         // Add data to the table
         tableModel.addRow(new Object[] {
-            "Day " + newRowId,
+            "Jour " + newRowId,
             weightEntered ? weight + " KG" : "--",
             tempEntered ? temp + "°C" : "--",
-            heartRateEntered ? heartRate + " bpm" : "--"
+            heartRateEntered ? heartRate + "/10 mmHg" : "--"
         });
 
         // Save to the database
@@ -398,20 +399,20 @@ public class DataTableUI extends JFrame {
                 addedToday = true;
 
                 JOptionPane.showMessageDialog(this,
-                    "Today's info has been added to the database successfully!",
-                    "Success",
+                    "Les informations d'aujourd'hui ont été ajoutées à la base de données avec succès!",
+                    "Succèss",
                     JOptionPane.INFORMATION_MESSAGE);
 
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(this,
-                    "Error adding today's info: " + e.getMessage(),
-                    "Database Error",
+                    "Erreur lors de l'ajout des informations d'aujourd'hui: " + e.getMessage(),
+                    "Erreur BDD",
                     JOptionPane.ERROR_MESSAGE);
             }
         } else {
             JOptionPane.showMessageDialog(this,
-                "Incomplete data. Fill all fields to save to the database.",
-                "Partial Data",
+                "Données incomplètes. Remplissez tous les champs pour enregistrer dans la base de données.",
+                "Données incomplètes",
                 JOptionPane.WARNING_MESSAGE);
         }
     }
@@ -422,13 +423,13 @@ public class DataTableUI extends JFrame {
         SwingUtilities.invokeLater(() -> new DataTableUI(1).setVisible(true));
     }
 
-    private void updateDateTime() {
+    /*private void updateDateTime() {
         Timer timer = new Timer(1000, e -> {
             SimpleDateFormat sdf = new SimpleDateFormat("EEEE dd/MM/yyyy  HH:mm:ss");
             dateTime.setText(sdf.format(new Date()));
         });
         timer.start();
-    }
+    }*/
     private void overwriteTodaysInfo(int userId) {
         if (todayRowIndex != -1) {
             int rowId = todayRowIndex + 1; // Assuming rows are in sequential order 
@@ -449,8 +450,8 @@ public class DataTableUI extends JFrame {
             todayRowIndex = -1;
 
             JOptionPane.showMessageDialog(this, 
-                "Today's info has been deleted successfully.", 
-                "Deleted", 
+                "Les informations d'aujourd'hui ont été supprimées avec succès.", 
+                "Supprimé", 
                 JOptionPane.INFORMATION_MESSAGE);
         }
     }
@@ -487,8 +488,8 @@ public class DataTableUI extends JFrame {
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this,
-                "Error loading notifications: " + e.getMessage(),
-                "Database Error",
+                "Erreur de chargement des notifications: " + e.getMessage(),
+                "Erreur BDD",
                 JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -507,8 +508,8 @@ public class DataTableUI extends JFrame {
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, 
-                "Error deleting row from database: " + e.getMessage(), 
-                "Database Error", 
+                "Erreur lors de la suppression d'une ligne de la base de données: " + e.getMessage(), 
+                "Erreur BDD", 
                 JOptionPane.ERROR_MESSAGE);
         }
     }

@@ -33,8 +33,6 @@ public class DataGraphWindow extends JFrame {
         dateTime.setFont(new Font("Arial", Font.BOLD, 14));
         dateTime.setForeground(Color.BLACK);
         dateTime.setBounds(700, 10, 230, 30);
-        updateDateTime();
-        background.add(dateTime);
 
         // Create datasets for the graphs
         double[] weights = new double[tableModel.getRowCount()];
@@ -51,7 +49,7 @@ public class DataGraphWindow extends JFrame {
                 // Remove units before parsing
                 String weight = tableModel.getValueAt(i, 1).toString().replace(" KG", "").trim();
                 String temp = tableModel.getValueAt(i, 2).toString().replace("°C", "").trim();
-                String bp = tableModel.getValueAt(i, 3).toString().replace(" bpm", "").trim(); // Blood pressure
+                String bp = tableModel.getValueAt(i, 3).toString().replace(" mmHg", "").trim(); // Blood pressure
 
                 String[] tension = bp.split("/"); // Split systolic/diastolic
 
@@ -62,25 +60,25 @@ public class DataGraphWindow extends JFrame {
                 diastolic[i] = Double.parseDouble(tension[1].trim());
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this,
-                        "Error parsing data for graph: " + ex.getMessage(),
-                        "Data Parsing Error",
+                        "Erreur lors de l'analyse des données pour le graphe: " + ex.getMessage(),
+                        "Erreur d'analyse de données",
                         JOptionPane.ERROR_MESSAGE);
             }
         }
 
         // Create custom panels for the graphs
         BarChartPanel weightTempPanel = new BarChartPanel(
-                "Weight and Temperature", days, 
+                "Poids et température", days, 
                 new double[][]{weights, temperatures}, 
                 new Color[]{new Color(63, 63, 63), new Color(38, 126, 53)},
-                new String[]{"Weight", "Temperature"}
+                new String[]{"Poids", "Température"}
         );
 
         BarChartPanel bloodPressurePanel = new BarChartPanel(
-                "Blood Pressure", days, 
+                "Tension", days, 
                 new double[][]{systolic, diastolic}, 
                 new Color[]{new Color(38, 126, 53), new Color(63, 63, 63)},
-                new String[]{"Systolic", "Diastolic"}
+                new String[]{"Systolique", "Diastolique"}
         );
 
         // Add both charts to a panel
@@ -93,13 +91,6 @@ public class DataGraphWindow extends JFrame {
         setVisible(true);
     }
 
-    private void updateDateTime() {
-        Timer timer = new Timer(1000, e -> {
-            SimpleDateFormat sdf = new SimpleDateFormat("EEEE dd/MM/yyyy  HH:mm:ss");
-            dateTime.setText(sdf.format(new Date()));
-        });
-        timer.start();
-    }
 
     // Custom JPanel for rendering bar charts
     private static class BarChartPanel extends JPanel {

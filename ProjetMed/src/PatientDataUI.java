@@ -11,7 +11,7 @@ public class PatientDataUI extends JFrame {
     private DefaultTableModel tableModel;
 
     public PatientDataUI(int userId, int ID_Prof) {
-        setTitle("Sahtec - Data Table");
+        setTitle("Médilog - Data Table");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(942, 627);
         setLocationRelativeTo(null);
@@ -58,7 +58,7 @@ public class PatientDataUI extends JFrame {
         contactPatientBtn.setForeground(Color.WHITE);
         background.add(contactPatientBtn);
 
-        String[] columns = {"Day", "Weight (KG)", "Temperature (°C)", "Heart Rate (bpm)"};
+        String[] columns = {"Jour", "Poids (KG)", "Température (°C)", "Tension (/10 mmHg)"};
         tableModel = new DefaultTableModel(columns, 0);
         JTable table = new JTable(tableModel);
 
@@ -86,12 +86,10 @@ public class PatientDataUI extends JFrame {
         dateTime.setFont(new Font("Arial", Font.BOLD, 14));
         dateTime.setForeground(Color.BLACK);
         dateTime.setBounds(700, 10, 230, 30);
-        updateDateTime();
-        background.add(dateTime);
 
         contactPatientBtn.addActionListener(e -> {
-            String message = JOptionPane.showInputDialog(this, "Enter message for the patient:", 
-                                                          "Contact Patient", JOptionPane.PLAIN_MESSAGE);
+            String message = JOptionPane.showInputDialog(this, "Entrer le message pour le patient:", 
+                                                          "Contacter le patient", JOptionPane.PLAIN_MESSAGE);
             if (message != null && !message.trim().isEmpty()) {
                 String patientName = getPatientName(userId);
                 if (patientName != null) {
@@ -120,15 +118,15 @@ public class PatientDataUI extends JFrame {
                     int day = rs.getInt("ID_Row");
                     String weight = rs.getString("Patient_Weight") + " KG";
                     String temp = rs.getString("Patient_Temp") + "°C";
-                    String heartRate = rs.getString("Patient_Heartbt") + " bpm";
+                    String heartRate = rs.getString("Patient_Heartbt") + " mmHg";
 
-                    tableModel.addRow(new Object[]{"Day " + day, weight, temp, heartRate});
+                    tableModel.addRow(new Object[]{"Jour " + day, weight, temp, heartRate});
                 }
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, 
-                "Error loading data: " + e.getMessage(), 
-                "Database Error", 
+                "Erreur lors le chargement des données: " + e.getMessage(), 
+                "Erreur BDD", 
                 JOptionPane.ERROR_MESSAGE);
         }
     } 
@@ -152,8 +150,8 @@ public class PatientDataUI extends JFrame {
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, 
-                "Error sending message: " + e.getMessage(), 
-                "Database Error", 
+                "Erreur lors l'envoi du message: " + e.getMessage(), 
+                "Erreur BDD", 
                 JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -179,19 +177,11 @@ public class PatientDataUI extends JFrame {
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, 
-                "Error fetching patient name: " + e.getMessage(), 
-                "Database Error", 
+                "Erreur lors de la récupération du nom du patient: " + e.getMessage(), 
+                "Erreur BDD", 
                 JOptionPane.ERROR_MESSAGE);
         }
 
         return patientName;
-    }
-
-    private void updateDateTime() {
-        Timer timer = new Timer(1000, e -> {
-            SimpleDateFormat sdf = new SimpleDateFormat("EEEE dd/MM/yyyy  HH:mm:ss");
-            dateTime.setText(sdf.format(new Date()));
-        });
-        timer.start();
     }
 }
